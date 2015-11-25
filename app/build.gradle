@@ -1,5 +1,12 @@
 apply plugin: 'com.android.application'
 
+if(!project.hasProperty('API_KEY_MOVIE_DB')){
+    //Stop the build, we need the API key
+    throw new GradleException("Missing The Movie DB API Key. Make sure it is set in gradle properties as: API_KEY_MOVIE_DB")
+}
+
+def API_KEY = '"' + project.properties['API_KEY_MOVIE_DB'] + '"'
+
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
@@ -12,6 +19,9 @@ android {
         versionName "1.0"
     }
     buildTypes {
+        all {
+            buildConfigField 'String', 'API_KEY', API_KEY
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
