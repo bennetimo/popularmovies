@@ -17,4 +17,12 @@ public class Utility {
         return builtUri;
     }
 
+    public static Uri buildImageUri(Context c, String imagePath) {
+        Uri builtUri = Uri.parse(c.getString(R.string.tmdb_image_base)).buildUpon()
+                .appendPath(c.getString(R.string.tmdb_image_size))
+                .appendEncodedPath(imagePath)
+                .build();
+        return builtUri;
+    }
+
 }

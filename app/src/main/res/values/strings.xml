@@ -8,6 +8,8 @@
     <string name="tmdb_api_ep_discover">discover/movie</string>
     <string name="tmdb_api_qp_sort_order">sort_by</string>
     <string name="tmdb_api_qp_api_key">api_key</string>
+    <string name="tmdb_image_base">http://image.tmdb.org/t/p/</string>
+    <string name="tmdb_image_size">w185</string>
 
     <!-- Action Strings-->
     <string name="action_settings">Settings</string>

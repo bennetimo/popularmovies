@@ -15,6 +15,11 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
+import net.tbennett.popularmovies.data.gson.Movie;
+import net.tbennett.popularmovies.data.gson.Movies;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,15 +29,17 @@ import java.net.URL;
 
 public class MoviesFragment extends Fragment {
 
+    private ImageAdapter mImageAdapter;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View fragmentView = inflater.inflate(R.layout.fragment_movies, container, false);
 
-        ImageAdapter imageAdapter = new ImageAdapter(getActivity());
+        mImageAdapter = new ImageAdapter(getActivity(), R.layout.movie_tile);
 
         GridView movieView = (GridView) fragmentView.findViewById(R.id.grid_movies);
-        movieView.setAdapter(imageAdapter);
+        movieView.setAdapter(mImageAdapter);
 
         movieView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -65,11 +72,21 @@ public class MoviesFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    public class FetchMoviesTask extends AsyncTask<String, Void, Void> {
+    public class FetchMoviesTask extends AsyncTask<String, Void, Movies> {
 
         private final String LOG_TAG = Utility.getLogTag(this.getClass());
 
-        protected Void doInBackground(String... params) {
+        @Override
+        protected void onPostExecute(Movies movies) {
+            if(movies != null) {
+                mImageAdapter.clear();
+                for (Movie movie : movies.movies) {
+                    mImageAdapter.add(movie);
+                }
+            }
+        }
+
+        protected Movies doInBackground(String... params) {
             if(params.length != 1) {
                 Log.d(LOG_TAG, "FetchMoviesTask was called without the sort order specified");
             }
@@ -78,7 +95,6 @@ public class MoviesFragment extends Fragment {
             HttpURLConnection urlConnection = null;
             BufferedReader reader = null;
 
-            String retrievedJson = null;
             try {
                 //Connect to The Movie DB
                 URL url = new URL(Utility.buildMovieDBUri(getContext(), sortBy).toString());
@@ -107,8 +123,14 @@ public class MoviesFragment extends Fragment {
                     return null;
                 }
 
-                retrievedJson = buffer.toString();
+                String retrievedJson = buffer.toString();
                 Log.d(LOG_TAG, "Retrieved: " + retrievedJson);
+
+                Gson gson = new Gson();
+                Movies movies = gson.fromJson(retrievedJson, Movies.class);
+
+                Log.d(LOG_TAG, "Built GSON: " + movies);
+                return movies;
             } catch (IOException e) {
                 Log.e(LOG_TAG, "Error: ", e);
                 return null;
@@ -124,7 +146,6 @@ public class MoviesFragment extends Fragment {
                     }
                 }
             }
-            return null;
         }
     }
 
