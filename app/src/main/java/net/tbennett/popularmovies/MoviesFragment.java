@@ -6,6 +6,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -44,6 +47,22 @@ public class MoviesFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.movies_fragment, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_refresh:
+                new FetchMoviesTask().execute();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public class FetchMoviesTask extends AsyncTask<String, Void, Void> {
@@ -87,6 +106,7 @@ public class MoviesFragment extends Fragment {
                 }
 
                 retrievedJson = buffer.toString();
+                Log.d(LOG_TAG, "Retrieved: " + retrievedJson);
             } catch (IOException e) {
                 Log.e(LOG_TAG, "Error: ", e);
                 return null;

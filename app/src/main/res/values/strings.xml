@@ -1,3 +1,8 @@
 <resources>
+    <!-- General App Strings-->
     <string name="app_name">Popular Movies</string>
+
+    <!-- Action Strings-->
+    <string name="action_settings">Settings</string>
+    <string name="action_refresh" translatable="false">Refresh</string>
 </resources>
