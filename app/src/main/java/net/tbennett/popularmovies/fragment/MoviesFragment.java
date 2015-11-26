@@ -56,6 +56,9 @@ public class MoviesFragment extends Fragment {
             }
         });
 
+        //Initially populate the movies
+        new FetchMoviesTask().execute("popularity.desc");
+
         return fragmentView;
     }
 
