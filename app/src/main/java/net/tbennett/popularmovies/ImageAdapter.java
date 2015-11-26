@@ -2,12 +2,13 @@ package net.tbennett.popularmovies;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
@@ -24,12 +25,16 @@ public class ImageAdapter extends ArrayAdapter<Movie> {
         LayoutInflater inflater = ((Activity)context).getLayoutInflater();
 
         //Recycle the view if possible
-        ImageView view = (convertView == null) ? (ImageView)inflater.inflate(R.layout.movie_tile, null).findViewById(R.id.movie_tile) :
-                (ImageView) convertView;
+        FrameLayout view = (convertView == null) ? (FrameLayout)inflater.inflate(R.layout.movie_tile, null) :
+                (FrameLayout) convertView;
+
+        ImageView image = (ImageView) view.findViewById(R.id.movie_image);
+        TextView popularity = (TextView) view.findViewById(R.id.movie_vote_average);
 
         //Retrieve and load the poster image for this movie
         Movie thisMovie = getItem(position);
-        Picasso.with(context).load(Utility.buildImageUri(context, thisMovie.posterPath)).into(view);
+        Picasso.with(context).load(Utility.buildImageUri(context, thisMovie.posterPath)).into(image);
+        popularity.setText(context.getString(R.string.format_rating, thisMovie.voteAverage));
         return view;
     }
 }

@@ -10,6 +10,8 @@ public class Movie {
     @SerializedName("poster_path")
     public String posterPath;
     public double popularity;
+    @SerializedName("vote_average")
+    public double voteAverage;
     public String title;
 
     @Override
@@ -18,6 +20,7 @@ public class Movie {
                 "id=" + id +
                 ", posterPath='" + posterPath + '\'' +
                 ", popularity=" + popularity +
+                ", voteAverage=" + voteAverage +
                 ", title='" + title + '\'' +
                 '}';
     }

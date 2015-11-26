@@ -8,4 +8,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="MovieTileText">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">#ffffff</item>
+    </style>
+
 </resources>
