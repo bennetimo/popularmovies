@@ -10,12 +10,12 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
-public class OverviewFragment extends Fragment {
+public class MoviesFragment extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View fragmentView = inflater.inflate(R.layout.fragment_overview, container, false);
+        View fragmentView = inflater.inflate(R.layout.fragment_movies, container, false);
 
         ImageAdapter imageAdapter = new ImageAdapter(getActivity());
 
