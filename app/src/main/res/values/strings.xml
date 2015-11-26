@@ -1,6 +1,7 @@
 <resources xmlns:xliff="http://schemas.android.com/apk/res-auto">
     <!-- General App Strings-->
     <string name="app_name">Popular Movies</string>
+    <string name="title_activity_settings">Settings</string>
 
     <!-- The Movie DB Uri Strings-->
     <string name="tmdb_api_base">http://api.themoviedb.org</string>

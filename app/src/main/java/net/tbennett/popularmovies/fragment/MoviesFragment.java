@@ -17,6 +17,7 @@ import android.widget.GridView;
 
 import com.google.gson.Gson;
 
+import net.tbennett.popularmovies.activity.SettingsActivity;
 import net.tbennett.popularmovies.data.ImageAdapter;
 import net.tbennett.popularmovies.R;
 import net.tbennett.popularmovies.util.Utility;
@@ -66,7 +67,7 @@ public class MoviesFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.movies_fragment, menu);
+        inflater.inflate(R.menu.menu_movies_fragment, menu);
     }
 
     @Override
@@ -74,6 +75,9 @@ public class MoviesFragment extends Fragment {
         switch (item.getItemId()){
             case R.id.action_refresh:
                 new FetchMoviesTask().execute("popularity.desc");
+                return true;
+            case R.id.action_settings:
+                startActivity(new Intent(getActivity(), SettingsActivity.class));
                 return true;
         }
         return super.onOptionsItemSelected(item);
