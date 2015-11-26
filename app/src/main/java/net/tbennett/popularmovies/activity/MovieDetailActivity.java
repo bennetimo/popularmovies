@@ -1,7 +1,10 @@
-package net.tbennett.popularmovies;
+package net.tbennett.popularmovies.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import net.tbennett.popularmovies.fragment.MovieDetailFragment;
+import net.tbennett.popularmovies.R;
 
 public class MovieDetailActivity extends AppCompatActivity {
 

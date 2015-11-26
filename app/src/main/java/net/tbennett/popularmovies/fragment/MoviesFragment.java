@@ -1,4 +1,4 @@
-package net.tbennett.popularmovies;
+package net.tbennett.popularmovies.fragment;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -14,10 +14,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import net.tbennett.popularmovies.data.ImageAdapter;
+import net.tbennett.popularmovies.R;
+import net.tbennett.popularmovies.util.Utility;
+import net.tbennett.popularmovies.activity.MovieDetailActivity;
 import net.tbennett.popularmovies.data.gson.Movie;
 import net.tbennett.popularmovies.data.gson.Movies;
 

@@ -1,4 +1,4 @@
-package net.tbennett.popularmovies;
+package net.tbennett.popularmovies.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import net.tbennett.popularmovies.R;
 import net.tbennett.popularmovies.data.gson.Movie;
 
 public class MovieDetailFragment extends Fragment {

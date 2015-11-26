@@ -1,7 +1,10 @@
-package net.tbennett.popularmovies;
+package net.tbennett.popularmovies.util;
 
 import android.content.Context;
 import android.net.Uri;
+
+import net.tbennett.popularmovies.BuildConfig;
+import net.tbennett.popularmovies.R;
 
 public class Utility {
 

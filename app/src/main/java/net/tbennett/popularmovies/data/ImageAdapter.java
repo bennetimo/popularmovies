@@ -1,4 +1,4 @@
-package net.tbennett.popularmovies;
+package net.tbennett.popularmovies.data;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import net.tbennett.popularmovies.R;
+import net.tbennett.popularmovies.util.Utility;
 import net.tbennett.popularmovies.data.gson.Movie;
 
 public class ImageAdapter extends ArrayAdapter<Movie> {
