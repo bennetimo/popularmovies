@@ -4,12 +4,28 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+
+import net.tbennett.popularmovies.R;
 
 public class SettingsActivity extends PreferenceActivity implements Preference.OnPreferenceChangeListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        addPreferencesFromResource(R.xml.pref_general);
+
+        //Setup OnPreferenceChangeListener
+        bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_key_sort_order)));
+    }
+
+    private void bindPreferenceSummaryToValue(Preference preference) {
+        //Set the change listener to be this activity
+        preference.setOnPreferenceChangeListener(this);
+        //Trigger the change manually now to show the summary
+        onPreferenceChange(preference, PreferenceManager
+                .getDefaultSharedPreferences(preference.getContext())
+                .getString(preference.getKey(), ""));
     }
 
     @Override
