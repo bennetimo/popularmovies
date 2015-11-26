@@ -1,8 +1,10 @@
 package net.tbennett.popularmovies.fragment;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -35,6 +37,7 @@ import java.net.URL;
 public class MoviesFragment extends Fragment {
 
     private ImageAdapter mImageAdapter;
+    private SharedPreferences mSharedPref;
 
     @Nullable
     @Override
@@ -42,6 +45,7 @@ public class MoviesFragment extends Fragment {
         View fragmentView = inflater.inflate(R.layout.fragment_movies, container, false);
 
         mImageAdapter = new ImageAdapter(getActivity(), R.layout.movie_tile);
+        mSharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         GridView movieView = (GridView) fragmentView.findViewById(R.id.grid_movies);
         movieView.setAdapter(mImageAdapter);
@@ -57,7 +61,8 @@ public class MoviesFragment extends Fragment {
         });
 
         //Initially populate the movies
-        new FetchMoviesTask().execute("popularity.desc");
+        String sortOrder = mSharedPref.getString(getString(R.string.pref_key_sort), getString(R.string.pref_default_sort));
+        new FetchMoviesTask().execute(sortOrder);
 
         return fragmentView;
     }
@@ -77,7 +82,8 @@ public class MoviesFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_refresh:
-                new FetchMoviesTask().execute("popularity.desc");
+                String sortOrder = mSharedPref.getString(getString(R.string.pref_key_sort), getString(R.string.pref_default_sort));
+                new FetchMoviesTask().execute(sortOrder);
                 return true;
             case R.id.action_settings:
                 startActivity(new Intent(getActivity(), SettingsActivity.class));

@@ -17,17 +17,17 @@
     <string name="action_refresh" translatable="false">Refresh</string>
 
     <!-- Movie Tile Strings-->
-    <string name="format_rating"><xliff:g id="pressure">%1.0f</xliff:g>/10</string>
+    <string name="format_rating"><xliff:g id="rating">%1.0f</xliff:g>/10</string>
 
     <!-- Preference Strings-->
-    <string name="pref_key_sort_order" translatable="false">sort</string>
-    <string name="pref_title_sort_order">Sort By</string>
+    <string name="pref_key_sort" translatable="false">sort</string>
+    <string name="pref_title_sort">Sort By</string>
+    <string name="pref_default_sort">@string/pref_array_sort_popularity</string>
 
-        <!-- Human readable preferene lables-->
+        <!-- Human readable preference labels-->
         <string name="pref_array_label_sort_popularity">Popularity</string>
         <string name="pref_array_label_sort_rating">Rating</string>
-        <string name="pref_array_sort_popularity" translatable="false">popularity</string>
-        <string name="pref_array_sort_rating" translatable="false">rating</string>
-
+        <string name="pref_array_sort_popularity" translatable="false">popularity.desc</string>
+        <string name="pref_array_sort_rating" translatable="false">vote_average.desc</string>
 
 </resources>
