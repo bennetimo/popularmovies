@@ -60,11 +60,22 @@ public class MoviesFragment extends Fragment {
             }
         });
 
+        return fragmentView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
         //Initially populate the movies
+        retrieveMovies();
+    }
+
+    /**
+     * Retrieve movie data from TMDB using the sort order specified in the preferences
+     */
+    private void retrieveMovies() {
         String sortOrder = mSharedPref.getString(getString(R.string.pref_key_sort), getString(R.string.pref_default_sort));
         new FetchMoviesTask().execute(sortOrder);
-
-        return fragmentView;
     }
 
     @Override
@@ -82,8 +93,7 @@ public class MoviesFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_refresh:
-                String sortOrder = mSharedPref.getString(getString(R.string.pref_key_sort), getString(R.string.pref_default_sort));
-                new FetchMoviesTask().execute(sortOrder);
+                retrieveMovies();
                 return true;
             case R.id.action_settings:
                 startActivity(new Intent(getActivity(), SettingsActivity.class));
