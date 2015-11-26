@@ -31,12 +31,12 @@ public class ImageAdapter extends ArrayAdapter<Movie> {
                 (FrameLayout) convertView;
 
         ImageView image = (ImageView) view.findViewById(R.id.movie_image);
-        TextView popularity = (TextView) view.findViewById(R.id.movie_vote_average);
+        TextView rating = (TextView) view.findViewById(R.id.movie_vote_average);
 
         //Retrieve and load the poster image for this movie
         Movie thisMovie = getItem(position);
         Picasso.with(context).load(Utility.buildImageUri(context, thisMovie.posterPath)).into(image);
-        popularity.setText(context.getString(R.string.format_rating, thisMovie.voteAverage));
+        rating.setText(context.getString(R.string.format_rating_overlay, thisMovie.voteAverage));
         return view;
     }
 }

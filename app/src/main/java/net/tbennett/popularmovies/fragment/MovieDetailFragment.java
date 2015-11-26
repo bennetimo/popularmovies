@@ -40,13 +40,13 @@ public class MovieDetailFragment extends Fragment {
             title.setText(mMovie.title);
 
             TextView plot = (TextView) rootView.findViewById(R.id.movie_detail_plot);
-            plot.setText(mMovie.overview);
+            plot.setText(mContext.getString(R.string.format_plot, mMovie.plotSynopsis));
 
             TextView rating = (TextView) rootView.findViewById(R.id.movie_detail_rating);
-            rating.setText("" + mMovie.voteAverage);
+            rating.setText(mContext.getString(R.string.format_rating, mMovie.voteAverage));
 
             TextView releaseDate = (TextView) rootView.findViewById(R.id.movie_detail_releasedate);
-            releaseDate.setText(mMovie.releaseDate);
+            releaseDate.setText(mContext.getString(R.string.format_releasedate, mMovie.releaseDate));
         }
 
         return rootView;
