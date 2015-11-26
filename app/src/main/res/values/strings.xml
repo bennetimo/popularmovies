@@ -18,9 +18,9 @@
 
     <!-- Movie Tile Strings-->
     <string name="format_rating_overlay"><xliff:g id="rating">%1.0f</xliff:g>/10</string>
-    <string name="format_rating">User Rating: <xliff:g id="rating">%1.0f</xliff:g>/10</string>
-    <string name="format_releasedate">Release Date: <xliff:g id="releasedate">%s</xliff:g></string>
-    <string name="format_plot">Plot: <xliff:g id="plot">%s</xliff:g></string>
+    <string name="format_rating"><xliff:g id="rating">%1.0f</xliff:g>/10</string>
+    <string name="format_releasedate"><xliff:g id="releasedate">%s</xliff:g></string>
+    <string name="format_plot"><xliff:g id="plot">%s</xliff:g></string>
 
     <!-- Preference Strings-->
     <string name="pref_key_sort" translatable="false">sort</string>
@@ -32,5 +32,10 @@
         <string name="pref_array_label_sort_rating">Rating</string>
         <string name="pref_array_sort_popularity" translatable="false">popularity.desc</string>
         <string name="pref_array_sort_rating" translatable="false">vote_average.desc</string>
+
+    <!-- Movie Detail Labels -->
+    <string name="label_plot">Plot Summary</string>
+    <string name="label_rating">User Rating</string>
+    <string name="label_releasedate">Release Date</string>
 
 </resources>
