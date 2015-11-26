@@ -59,7 +59,7 @@ public class MoviesFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_refresh:
-                new FetchMoviesTask().execute();
+                new FetchMoviesTask().execute("popularity.desc");
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -70,16 +70,18 @@ public class MoviesFragment extends Fragment {
         private final String LOG_TAG = Utility.getLogTag(this.getClass());
 
         protected Void doInBackground(String... params) {
+            if(params.length != 1) {
+                Log.d(LOG_TAG, "FetchMoviesTask was called without the sort order specified");
+            }
+            final String sortBy = params[0];
+
             HttpURLConnection urlConnection = null;
             BufferedReader reader = null;
-            String apiKey = "&api_key=" + BuildConfig.API_KEY;
-            String path = "http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc" + apiKey;
 
             String retrievedJson = null;
-
             try {
                 //Connect to The Movie DB
-                URL url = new URL(path);
+                URL url = new URL(Utility.buildMovieDBUri(getContext(), sortBy).toString());
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");
                 urlConnection.connect();

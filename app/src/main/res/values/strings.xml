@@ -2,6 +2,13 @@
     <!-- General App Strings-->
     <string name="app_name">Popular Movies</string>
 
+    <!-- The Movie DB Uri Strings-->
+    <string name="tmdb_api_base">http://api.themoviedb.org</string>
+    <string name="tmdb_api_version">3</string>
+    <string name="tmdb_api_ep_discover">discover/movie</string>
+    <string name="tmdb_api_qp_sort_order">sort_by</string>
+    <string name="tmdb_api_qp_api_key">api_key</string>
+
     <!-- Action Strings-->
     <string name="action_settings">Settings</string>
     <string name="action_refresh" translatable="false">Refresh</string>
