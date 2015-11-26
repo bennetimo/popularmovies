@@ -1,6 +1,7 @@
 package net.tbennett.popularmovies;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -13,11 +14,13 @@ import java.util.Arrays;
 public class ImageAdapter extends BaseAdapter{
 
     private Context mContext;
+    private LayoutInflater inflater;
 
     private int[] dummyImages = new int[50];
 
     public ImageAdapter(Context c) {
         mContext = c;
+        inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         Arrays.fill(dummyImages, 0, 50, R.mipmap.ic_launcher);
     }
 
@@ -39,7 +42,8 @@ public class ImageAdapter extends BaseAdapter{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         //Recycle the view if possible
-        ImageView view = (convertView == null) ? new ImageView(mContext) : (ImageView) convertView;
+        ImageView view = (convertView == null) ? (ImageView)inflater.inflate(R.layout.movie_tile, null).findViewById(R.id.movie_tile) :
+                (ImageView) convertView;
         Picasso.with(mContext).load(dummyImages[position]).into(view);
         return view;
     }
