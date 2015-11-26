@@ -1,5 +1,6 @@
 package net.tbennett.popularmovies;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -44,7 +45,10 @@ public class MoviesFragment extends Fragment {
         movieView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getContext(), "Loading position " + position, Toast.LENGTH_SHORT).show();
+                //Launch the movie detail activity for this movie
+                Movie thisMovie = mImageAdapter.getItem(position);
+                Intent intent = new Intent(getActivity(), MovieDetailActivity.class).putExtra(Intent.EXTRA_TEXT, thisMovie);
+                startActivity(intent);
             }
         });
 

@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final String MOVIES_FRAGMENT_TAG = "FTAG_MOVIES";
+    private final String FRAGMENT_TAG = "FTAG_MOVIES";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
             //Add the movies fragment to the view
             getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.container, new MoviesFragment(), MOVIES_FRAGMENT_TAG)
+                .add(R.id.container_main, new MoviesFragment(), FRAGMENT_TAG)
                 .commit();
         }
     }
