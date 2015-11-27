@@ -32,8 +32,12 @@
         <!-- Human readable preference labels-->
         <string name="pref_array_label_sort_popularity">Popularity</string>
         <string name="pref_array_label_sort_rating">Rating</string>
+        <string name="pref_array_label_sort_releasedate">Release Date</string>
+        <string name="pref_array_label_sort_title">Title</string>
         <string name="pref_array_sort_popularity" translatable="false">popularity.desc</string>
         <string name="pref_array_sort_rating" translatable="false">vote_average.desc</string>
+        <string name="pref_array_sort_releasedate" translatable="false">release_date.desc</string>
+        <string name="pref_array_sort_title" translatable="false">original_title.desc</string>
 
     <!-- Movie Detail Labels -->
     <string name="label_plot">Plot Summary</string>
