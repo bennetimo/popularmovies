@@ -18,8 +18,8 @@
     <string name="action_refresh" translatable="false">Refresh</string>
 
     <!-- Movie Tile Strings-->
-    <string name="format_rating_overlay"><xliff:g id="rating">%1.0f</xliff:g>/10</string>
-    <string name="format_rating"><xliff:g id="rating">%1.0f</xliff:g>/10</string>
+    <string name="format_rating_overlay">\u2665 <xliff:g id="rating">%1.0f</xliff:g></string>
+    <string name="format_rating">\u2665 <xliff:g id="rating">%1.0f</xliff:g></string>
     <string name="format_releasedate"><xliff:g id="releasedate">%s</xliff:g></string>
     <string name="format_plot"><xliff:g id="plot">%s</xliff:g></string>
 
