@@ -44,6 +44,8 @@ public class MoviesFragment extends Fragment {
     //Keep track of the current sort order- if it changes, reload the movies
     private String currentSortOrder;
 
+    private InfiniteListScroller scroller;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,14 +64,16 @@ public class MoviesFragment extends Fragment {
 
         GridView movieView = (GridView) fragmentView.findViewById(R.id.grid_movies);
         movieView.setAdapter(mImageAdapter);
-        movieView.setOnScrollListener(new InfiniteListScroller() {
+
+        scroller = new InfiniteListScroller() {
             @Override
             public boolean onLoadMore(int page) {
-                Log.v(LOG_TAG, "Retrieving movie page: #" + page);
                 retrieveMovies(page);
                 return true;
             }
-        });
+        };
+
+        movieView.setOnScrollListener(scroller);
 
         movieView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -81,14 +85,12 @@ public class MoviesFragment extends Fragment {
             }
         });
 
-        return fragmentView;
-    }
+        if(savedInstanceState == null){
+            //Initially populate the movies
+            retrieveMovies(1);
+        }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        //Initially populate the movies
-        retrieveMovies(1);
+        return fragmentView;
     }
 
     @Override
@@ -100,7 +102,7 @@ public class MoviesFragment extends Fragment {
             if(currentSortOrder != sortOrder){
                 currentSortOrder = sortOrder;
                 mImageAdapter.clear();
-                retrieveMovies(1);
+                scroller.resetPreviousTotalItemCount();
             }
         }
     }
@@ -117,6 +119,7 @@ public class MoviesFragment extends Fragment {
      */
     private void retrieveMovies(int page) {
         String sortOrder = getCurrentSortOrder();
+        Log.d(LOG_TAG, "Retrieving movies page: " + page);
         new FetchMoviesTask().execute(sortOrder, "" + page);
     }
 

@@ -7,10 +7,6 @@ import android.widget.AbsListView;
  */
 public abstract class InfiniteListScroller implements AbsListView.OnScrollListener {
 
-    //The initial page that was loaded
-    private int startingPage = 1;
-    //The most recent page we have loaded
-    private int currentPage = 1;
     //The maximum page that can be loaded
     private int maxPage = 100;
     //How many items need to be left to scroll before we start loading more
@@ -27,20 +23,24 @@ public abstract class InfiniteListScroller implements AbsListView.OnScrollListen
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
         //How many items are not yet in view and still remain scrollable
         int remainingToScroll = totalItemCount - (firstVisibleItem + visibleItemCount);
+        int nextPage = (totalItemCount/20) + 1; //Calculate the next page based on the number of items loaded
 
         //Check if a current load in progress has finished
         if(totalItemCount > previousTotalItemCount){
             //We must have loaded something
             loading = false;
-            currentPage++;
             previousTotalItemCount = totalItemCount;
         }
 
         //Check if we need to load more
-        if(!loading && remainingToScroll <= remainingToScrollThreshold && currentPage <= maxPage){
+        if(!loading && remainingToScroll <= remainingToScrollThreshold && nextPage <= maxPage){
             //We're nearing the end of the list, load more data (but only if we're not already doing that)
-            loading = onLoadMore(currentPage);
+            loading = onLoadMore(nextPage);
         }
+    }
+
+    public void resetPreviousTotalItemCount() {
+        previousTotalItemCount = 0;
     }
 
     public abstract boolean onLoadMore(int page);
