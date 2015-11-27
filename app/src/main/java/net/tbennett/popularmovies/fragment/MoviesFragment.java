@@ -44,12 +44,19 @@ public class MoviesFragment extends Fragment {
     //Keep track of the current sort order- if it changes, reload the movies
     private String currentSortOrder;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+        setHasOptionsMenu(true);
+        mImageAdapter = new ImageAdapter(getActivity(), R.layout.movie_tile);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View fragmentView = inflater.inflate(R.layout.fragment_movies, container, false);
 
-        mImageAdapter = new ImageAdapter(getActivity(), R.layout.movie_tile);
         mSharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         currentSortOrder = getCurrentSortOrder();
 
@@ -86,6 +93,7 @@ public class MoviesFragment extends Fragment {
 
     @Override
     public void onResume() {
+        super.onResume();
         //Check to see if the sort order has changed, and if it has retrieve the movies again
         if(mSharedPref != null){
             String sortOrder = getCurrentSortOrder();
@@ -95,7 +103,6 @@ public class MoviesFragment extends Fragment {
                 retrieveMovies(1);
             }
         }
-        super.onResume();
     }
 
     private String getCurrentSortOrder(){
@@ -111,12 +118,6 @@ public class MoviesFragment extends Fragment {
     private void retrieveMovies(int page) {
         String sortOrder = getCurrentSortOrder();
         new FetchMoviesTask().execute(sortOrder, "" + page);
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
     }
 
     @Override
