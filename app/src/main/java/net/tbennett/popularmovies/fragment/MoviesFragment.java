@@ -41,6 +41,9 @@ public class MoviesFragment extends Fragment {
     private ImageAdapter mImageAdapter;
     private SharedPreferences mSharedPref;
 
+    //Keep track of the current sort order- if it changes, reload the movies
+    private String currentSortOrder;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -48,6 +51,7 @@ public class MoviesFragment extends Fragment {
 
         mImageAdapter = new ImageAdapter(getActivity(), R.layout.movie_tile);
         mSharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        currentSortOrder = getCurrentSortOrder();
 
         GridView movieView = (GridView) fragmentView.findViewById(R.id.grid_movies);
         movieView.setAdapter(mImageAdapter);
@@ -80,11 +84,32 @@ public class MoviesFragment extends Fragment {
         retrieveMovies(1);
     }
 
+    @Override
+    public void onResume() {
+        //Check to see if the sort order has changed, and if it has retrieve the movies again
+        if(mSharedPref != null){
+            String sortOrder = getCurrentSortOrder();
+            if(currentSortOrder != sortOrder){
+                currentSortOrder = sortOrder;
+                mImageAdapter.clear();
+                retrieveMovies(1);
+            }
+        }
+        super.onResume();
+    }
+
+    private String getCurrentSortOrder(){
+        if(mSharedPref != null) {
+            return mSharedPref.getString(getString(R.string.pref_key_sort), getString(R.string.pref_default_sort));
+        }
+        return null;
+    }
+
     /**
      * Retrieve movie data from TMDB using the sort order specified in the preferences
      */
     private void retrieveMovies(int page) {
-        String sortOrder = mSharedPref.getString(getString(R.string.pref_key_sort), getString(R.string.pref_default_sort));
+        String sortOrder = getCurrentSortOrder();
         new FetchMoviesTask().execute(sortOrder, "" + page);
     }
 
