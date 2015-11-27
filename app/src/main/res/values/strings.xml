@@ -18,10 +18,12 @@
     <string name="action_settings">Settings</string>
 
     <!-- Movie Tile Strings-->
+    <string name="format_original_title">(<xliff:g id="originaltitle">%s</xliff:g>)</string>
+    <string name="format_original_language"><xliff:g id="originallanguage">%s</xliff:g></string>
+    <string name="format_plot"><xliff:g id="plot">%s</xliff:g></string>
     <string name="format_rating_overlay">\u2665 <xliff:g id="rating">%1.0f</xliff:g></string>
     <string name="format_rating">\u2665 <xliff:g id="rating">%1.0f</xliff:g></string>
     <string name="format_releasedate"><xliff:g id="releasedate">%s</xliff:g></string>
-    <string name="format_plot"><xliff:g id="plot">%s</xliff:g></string>
 
     <!-- Preference Strings-->
     <string name="pref_key_sort" translatable="false">sort</string>
@@ -32,7 +34,7 @@
         <string name="pref_array_label_sort_popularity">Popularity</string>
         <string name="pref_array_label_sort_rating">Rating</string>
         <string name="pref_array_label_sort_releasedate">Release Date</string>
-        <string name="pref_array_label_sort_title">Title</string>
+        <string name="pref_array_label_sort_title">Title (Original)</string>
         <string name="pref_array_sort_popularity" translatable="false">popularity.desc</string>
         <string name="pref_array_sort_rating" translatable="false">vote_average.desc</string>
         <string name="pref_array_sort_releasedate" translatable="false">release_date.desc</string>
@@ -42,6 +44,7 @@
     <string name="label_plot">Plot Summary</string>
     <string name="label_rating">User Rating</string>
     <string name="label_releasedate">Release Date</string>
+    <string name="label_original_language">Original Language</string>
 
     <!-- Date Format Strings-->
     <string name="date_format_tmdb_api" translatable="false">yyyy-MM-dd</string>

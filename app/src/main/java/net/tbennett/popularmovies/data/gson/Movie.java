@@ -12,6 +12,10 @@ public class Movie implements Parcelable {
     @SerializedName("backdrop_path")
     public String backdropPath;
     public long id;
+    @SerializedName("original_language")
+    public String originalLanguage;
+    @SerializedName("original_title")
+    public String originalTitle;
     @SerializedName("overview")
     public String plotSynopsis;
     @SerializedName("release_date")
@@ -26,6 +30,8 @@ public class Movie implements Parcelable {
     protected Movie(Parcel in) {
         backdropPath = in.readString();
         id = in.readLong();
+        originalLanguage = in.readString();
+        originalTitle = in.readString();
         plotSynopsis = in.readString();
         releaseDate = in.readString();
         posterPath = in.readString();
@@ -47,20 +53,6 @@ public class Movie implements Parcelable {
     };
 
     @Override
-    public String toString() {
-        return "Movie{" +
-                "backdropPath='" + backdropPath + '\'' +
-                ", id=" + id +
-                ", plotSynopsis='" + plotSynopsis + '\'' +
-                ", releaseDate='" + releaseDate + '\'' +
-                ", posterPath='" + posterPath + '\'' +
-                ", popularity=" + popularity +
-                ", voteAverage=" + voteAverage +
-                ", title='" + title + '\'' +
-                '}';
-    }
-
-    @Override
     public int describeContents() {
         return 0;
     }
@@ -69,6 +61,8 @@ public class Movie implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(backdropPath);
         dest.writeLong(id);
+        dest.writeString(originalLanguage);
+        dest.writeString(originalTitle);
         dest.writeString(plotSynopsis);
         dest.writeString(releaseDate);
         dest.writeString(posterPath);

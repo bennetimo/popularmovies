@@ -57,6 +57,13 @@ public class MovieDetailFragment extends Fragment {
             TextView title = (TextView) rootView.findViewById(R.id.movie_detail_title);
             title.setText(Utility.valueOrDefault(mContext, mMovie.title));
 
+            //Only set the original title if it is different to the title
+            if(!mMovie.title.equals(mMovie.originalTitle)) {
+                TextView originalTitle = (TextView) rootView.findViewById(R.id.movie_detail_original_title);
+                originalTitle.setVisibility(View.VISIBLE);
+                originalTitle.setText(Utility.valueOrDefault(mContext, mContext.getString(R.string.format_original_title, mMovie.originalTitle)));
+            }
+
             TextView plot = (TextView) rootView.findViewById(R.id.movie_detail_plot);
             plot.setText(Utility.valueOrDefault(mContext, mContext.getString(R.string.format_plot, mMovie.plotSynopsis)));
 
@@ -65,6 +72,9 @@ public class MovieDetailFragment extends Fragment {
 
             TextView releaseDate = (TextView) rootView.findViewById(R.id.movie_detail_releasedate);
             releaseDate.setText(Utility.valueOrDefault(mContext, mContext.getString(R.string.format_releasedate, mMovie.releaseDate)));
+
+            TextView originalLanguage = (TextView) rootView.findViewById(R.id.movie_detail_original_language);
+            originalLanguage.setText(Utility.valueOrDefault(mContext, mContext.getString(R.string.format_original_language, mMovie.originalLanguage)));
         }
 
         return rootView;
