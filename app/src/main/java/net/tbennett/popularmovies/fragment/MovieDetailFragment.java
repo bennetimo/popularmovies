@@ -30,8 +30,10 @@ public class MovieDetailFragment extends Fragment {
         Intent intent = getActivity().getIntent();
         mContext = getContext();
 
-        int imageWidth = mContext.getResources().getDimensionPixelSize(R.dimen.movie_backdrop_width);
-        int imageHeight = mContext.getResources().getDimensionPixelSize(R.dimen.movie_backdrop_height);
+        int backdropImageWidth = mContext.getResources().getDimensionPixelSize(R.dimen.movie_backdrop_width);
+        int backdropImageHeight = mContext.getResources().getDimensionPixelSize(R.dimen.movie_backdrop_height);
+        int imageWidth = mContext.getResources().getDimensionPixelSize(R.dimen.movie_thumb_width);
+        int imageHeight = mContext.getResources().getDimensionPixelSize(R.dimen.movie_thumb_height);
 
         if(intent != null && intent.hasExtra(Intent.EXTRA_TEXT)){
             mMovie = (Movie) intent.getParcelableExtra(Intent.EXTRA_TEXT);
@@ -40,13 +42,16 @@ public class MovieDetailFragment extends Fragment {
             Picasso.with(mContext)
                     .load(Utility.buildImageUri(mContext, mMovie.backdropPath, Utility.ImageType.BACKDROP))
                     .placeholder(R.drawable.movie_backdrop_placeholder)
-                    .resize(imageWidth, imageHeight)
+                    .resize(backdropImageWidth, backdropImageHeight)
                     .centerCrop()
                     .into(backdropImage);
 
             ImageView image = (ImageView) rootView.findViewById(R.id.movie_image);
             Picasso.with(mContext)
                     .load(Utility.buildImageUri(mContext, mMovie.posterPath, Utility.ImageType.IMAGE))
+                    .placeholder(R.drawable.movie_thumb_placeholder)
+                    .resize(imageWidth, imageHeight)
+                    .centerCrop()
                     .into(image);
 
             TextView title = (TextView) rootView.findViewById(R.id.movie_detail_title);
