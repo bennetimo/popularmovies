@@ -17,8 +17,15 @@ import net.tbennett.popularmovies.util.Utility;
 import net.tbennett.popularmovies.data.gson.Movie;
 
 public class ImageAdapter extends ArrayAdapter<Movie> {
+
+    //Store the pixel dimensions we want for each image
+    private int imageWidth;
+    private int imageHeight;
+
     public ImageAdapter(Context context, int resource) {
         super(context, resource);
+        imageWidth = context.getResources().getDimensionPixelSize(R.dimen.movie_tile_width);
+        imageHeight = context.getResources().getDimensionPixelSize(R.dimen.movie_tile_height);
     }
 
     @Override
@@ -36,7 +43,12 @@ public class ImageAdapter extends ArrayAdapter<Movie> {
 
         //Retrieve and load the poster image for this movie
         Movie thisMovie = getItem(position);
-        Picasso.with(context).load(Utility.buildImageUri(context, thisMovie.posterPath, Utility.ImageType.IMAGE)).into(image);
+        Picasso.with(context)
+                .load(Utility.buildImageUri(context, thisMovie.posterPath, Utility.ImageType.IMAGE))
+                .placeholder(R.drawable.movie_tile_placeholder)
+                .resize(imageWidth, imageHeight)
+                .centerCrop()
+                .into(image);
         rating.setText(context.getString(R.string.format_rating_overlay, thisMovie.voteAverage));
         year.setText(Utility.getShortDateString(context, thisMovie.releaseDate));
         return view;

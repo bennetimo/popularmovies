@@ -158,8 +158,6 @@ public class MoviesFragment extends Fragment {
 
                 Gson gson = new Gson();
                 Movies movies = gson.fromJson(retrievedJson, Movies.class);
-
-                Log.d(LOG_TAG, "Built GSON: " + movies);
                 return movies;
             } catch (IOException e) {
                 Log.e(LOG_TAG, "Error: ", e);
