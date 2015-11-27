@@ -22,6 +22,7 @@ import com.google.gson.Gson;
 import net.tbennett.popularmovies.activity.SettingsActivity;
 import net.tbennett.popularmovies.data.ImageAdapter;
 import net.tbennett.popularmovies.R;
+import net.tbennett.popularmovies.data.InfiniteListScroller;
 import net.tbennett.popularmovies.util.Utility;
 import net.tbennett.popularmovies.activity.MovieDetailActivity;
 import net.tbennett.popularmovies.data.gson.Movie;
@@ -36,6 +37,7 @@ import java.net.URL;
 
 public class MoviesFragment extends Fragment {
 
+    private final String LOG_TAG = Utility.getLogTag(this.getClass());
     private ImageAdapter mImageAdapter;
     private SharedPreferences mSharedPref;
 
@@ -49,6 +51,14 @@ public class MoviesFragment extends Fragment {
 
         GridView movieView = (GridView) fragmentView.findViewById(R.id.grid_movies);
         movieView.setAdapter(mImageAdapter);
+        movieView.setOnScrollListener(new InfiniteListScroller() {
+            @Override
+            public boolean onLoadMore(int page) {
+                Log.v(LOG_TAG, "Retrieving movie page: #" + page);
+                retrieveMovies(page);
+                return true;
+            }
+        });
 
         movieView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -67,15 +77,15 @@ public class MoviesFragment extends Fragment {
     public void onStart() {
         super.onStart();
         //Initially populate the movies
-        retrieveMovies();
+        retrieveMovies(1);
     }
 
     /**
      * Retrieve movie data from TMDB using the sort order specified in the preferences
      */
-    private void retrieveMovies() {
+    private void retrieveMovies(int page) {
         String sortOrder = mSharedPref.getString(getString(R.string.pref_key_sort), getString(R.string.pref_default_sort));
-        new FetchMoviesTask().execute(sortOrder);
+        new FetchMoviesTask().execute(sortOrder, "" + page);
     }
 
     @Override
@@ -93,7 +103,7 @@ public class MoviesFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_refresh:
-                retrieveMovies();
+                retrieveMovies(1);
                 return true;
             case R.id.action_settings:
                 startActivity(new Intent(getActivity(), SettingsActivity.class));
@@ -109,7 +119,6 @@ public class MoviesFragment extends Fragment {
         @Override
         protected void onPostExecute(Movies movies) {
             if(movies != null) {
-                mImageAdapter.clear();
                 for (Movie movie : movies.movies) {
                     mImageAdapter.add(movie);
                 }
@@ -117,17 +126,18 @@ public class MoviesFragment extends Fragment {
         }
 
         protected Movies doInBackground(String... params) {
-            if(params.length != 1) {
-                Log.d(LOG_TAG, "FetchMoviesTask was called without the sort order specified");
+            if(params.length != 2) {
+                Log.d(LOG_TAG, "FetchMoviesTask was called without the sort order or page specified");
             }
             final String sortBy = params[0];
+            final String page = params[1];
 
             HttpURLConnection urlConnection = null;
             BufferedReader reader = null;
 
             try {
                 //Connect to The Movie DB
-                URL url = new URL(Utility.buildMovieDBUri(getContext(), sortBy).toString());
+                URL url = new URL(Utility.buildMovieDBUri(getContext(), sortBy, page).toString());
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");
                 urlConnection.connect();

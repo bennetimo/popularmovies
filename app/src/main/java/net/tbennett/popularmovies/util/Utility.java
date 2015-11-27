@@ -20,11 +20,12 @@ public class Utility {
 
     public static String getLogTag(Class clazz) { return clazz.getSimpleName(); }
 
-    public static Uri buildMovieDBUri(Context c, String sortBy) {
+    public static Uri buildMovieDBUri(Context c, String sortBy, String page) {
         Uri builtUri = Uri.parse(c.getString(R.string.tmdb_api_base)).buildUpon()
                 .appendPath(c.getString(R.string.tmdb_api_version))
                 .appendEncodedPath(c.getString(R.string.tmdb_api_ep_discover))
                 .appendQueryParameter(c.getString(R.string.tmdb_api_qp_sort_order), sortBy)
+                .appendQueryParameter(c.getString(R.string.tmdb_api_qp_page), page)
                 .appendQueryParameter(c.getString(R.string.tmdb_api_qp_api_key), BuildConfig.API_KEY)
                 .build();
         return builtUri;
@@ -51,11 +52,13 @@ public class Utility {
         SimpleDateFormat fromFormat = new SimpleDateFormat(c.getString(R.string.date_format_tmdb_api), Locale.getDefault());
         SimpleDateFormat toFormat = new SimpleDateFormat(c.getString(R.string.date_format_year), Locale.getDefault());
 
+        if(dateString == null) return ""; //Year is unknown
+
         try {
             Date fromDate = fromFormat.parse(dateString);
             return toFormat.format(fromDate);
         } catch (ParseException e) {
-            Log.e(getLogTag(Utility.class), "Problem parsing date: ", e);
+            Log.v(getLogTag(Utility.class), "Problem parsing date: " + dateString);
             return ""; //Use a blank string instead
         }
     }
