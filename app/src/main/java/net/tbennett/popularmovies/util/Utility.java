@@ -2,9 +2,15 @@ package net.tbennett.popularmovies.util;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 
 import net.tbennett.popularmovies.BuildConfig;
 import net.tbennett.popularmovies.R;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class Utility {
 
@@ -39,6 +45,19 @@ public class Utility {
                 .appendEncodedPath(imagePath)
                 .build();
         return builtUri;
+    }
+
+    public static String getShortDateString(Context c, String dateString) {
+        SimpleDateFormat fromFormat = new SimpleDateFormat(c.getString(R.string.date_format_tmdb_api), Locale.getDefault());
+        SimpleDateFormat toFormat = new SimpleDateFormat(c.getString(R.string.date_format_year), Locale.getDefault());
+
+        try {
+            Date fromDate = fromFormat.parse(dateString);
+            return toFormat.format(fromDate);
+        } catch (ParseException e) {
+            Log.e(getLogTag(Utility.class), "Problem parsing date: ", e);
+            return ""; //Use a blank string instead
+        }
     }
 
 }

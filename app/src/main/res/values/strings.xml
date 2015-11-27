@@ -39,4 +39,8 @@
     <string name="label_rating">User Rating</string>
     <string name="label_releasedate">Release Date</string>
 
+    <!-- Date Format Strings-->
+    <string name="date_format_tmdb_api" translatable="false">yyyy-MM-dd</string>
+    <string name="date_format_year" translatable="false">yyyy</string>
+
 </resources>
