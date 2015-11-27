@@ -55,16 +55,16 @@ public class MovieDetailFragment extends Fragment {
                     .into(image);
 
             TextView title = (TextView) rootView.findViewById(R.id.movie_detail_title);
-            title.setText(mMovie.title);
+            title.setText(Utility.valueOrDefault(mContext, mMovie.title));
 
             TextView plot = (TextView) rootView.findViewById(R.id.movie_detail_plot);
-            plot.setText(mContext.getString(R.string.format_plot, mMovie.plotSynopsis));
+            plot.setText(Utility.valueOrDefault(mContext, mContext.getString(R.string.format_plot, mMovie.plotSynopsis)));
 
             TextView rating = (TextView) rootView.findViewById(R.id.movie_detail_rating);
-            rating.setText(mContext.getString(R.string.format_rating, mMovie.voteAverage));
+            rating.setText(Utility.valueOrDefault(mContext, mContext.getString(R.string.format_rating, mMovie.voteAverage)));
 
             TextView releaseDate = (TextView) rootView.findViewById(R.id.movie_detail_releasedate);
-            releaseDate.setText(mContext.getString(R.string.format_releasedate, mMovie.releaseDate));
+            releaseDate.setText(Utility.valueOrDefault(mContext, mContext.getString(R.string.format_releasedate, mMovie.releaseDate)));
         }
 
         return rootView;

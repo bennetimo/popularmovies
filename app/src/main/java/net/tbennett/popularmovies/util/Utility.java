@@ -63,4 +63,15 @@ public class Utility {
         }
     }
 
+    /**
+     * If TMDB doesn't contain data for a particular item, display a human readable
+     * text that there is no data
+     * @param c Context
+     * @param s String to check
+     * @return the string unmodified if it has a value, or the R.string.default_text otherwise
+     */
+    public static String valueOrDefault(Context c, String s) {
+        return (s == null || s.equals("null")) ? c.getString(R.string.default_text) : s;
+    }
+
 }
