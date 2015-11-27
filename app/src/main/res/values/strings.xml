@@ -16,7 +16,6 @@
 
     <!-- Action Strings-->
     <string name="action_settings">Settings</string>
-    <string name="action_refresh" translatable="false">Refresh</string>
 
     <!-- Movie Tile Strings-->
     <string name="format_rating_overlay">\u2665 <xliff:g id="rating">%1.0f</xliff:g></string>
