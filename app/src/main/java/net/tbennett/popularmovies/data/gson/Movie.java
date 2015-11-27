@@ -9,6 +9,8 @@ import com.google.gson.annotations.SerializedName;
  * GSON class representing a single movie in TMDB API
  */
 public class Movie implements Parcelable {
+    @SerializedName("backdrop_path")
+    public String backdropPath;
     public long id;
     @SerializedName("overview")
     public String plotSynopsis;
@@ -22,6 +24,7 @@ public class Movie implements Parcelable {
     public String title;
 
     protected Movie(Parcel in) {
+        backdropPath = in.readString();
         id = in.readLong();
         plotSynopsis = in.readString();
         releaseDate = in.readString();
@@ -46,7 +49,8 @@ public class Movie implements Parcelable {
     @Override
     public String toString() {
         return "Movie{" +
-                "id=" + id +
+                "backdropPath='" + backdropPath + '\'' +
+                ", id=" + id +
                 ", plotSynopsis='" + plotSynopsis + '\'' +
                 ", releaseDate='" + releaseDate + '\'' +
                 ", posterPath='" + posterPath + '\'' +
@@ -63,6 +67,7 @@ public class Movie implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(backdropPath);
         dest.writeLong(id);
         dest.writeString(plotSynopsis);
         dest.writeString(releaseDate);

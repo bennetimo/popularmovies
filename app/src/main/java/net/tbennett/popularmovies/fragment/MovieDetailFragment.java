@@ -33,8 +33,11 @@ public class MovieDetailFragment extends Fragment {
         if(intent != null && intent.hasExtra(Intent.EXTRA_TEXT)){
             mMovie = (Movie) intent.getParcelableExtra(Intent.EXTRA_TEXT);
 
+            ImageView backdropImage = (ImageView) rootView.findViewById(R.id.movie_backdrop);
+            Picasso.with(mContext).load(Utility.buildImageUri(mContext, mMovie.backdropPath, Utility.ImageType.BACKDROP)).into(backdropImage);
+
             ImageView image = (ImageView) rootView.findViewById(R.id.movie_image);
-            Picasso.with(mContext).load(Utility.buildImageUri(mContext, mMovie.posterPath)).into(image);
+            Picasso.with(mContext).load(Utility.buildImageUri(mContext, mMovie.posterPath, Utility.ImageType.IMAGE)).into(image);
 
             TextView title = (TextView) rootView.findViewById(R.id.movie_detail_title);
             title.setText(mMovie.title);

@@ -35,7 +35,7 @@ public class ImageAdapter extends ArrayAdapter<Movie> {
 
         //Retrieve and load the poster image for this movie
         Movie thisMovie = getItem(position);
-        Picasso.with(context).load(Utility.buildImageUri(context, thisMovie.posterPath)).into(image);
+        Picasso.with(context).load(Utility.buildImageUri(context, thisMovie.posterPath, Utility.ImageType.IMAGE)).into(image);
         rating.setText(context.getString(R.string.format_rating_overlay, thisMovie.voteAverage));
         return view;
     }
