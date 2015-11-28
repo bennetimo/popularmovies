@@ -16,16 +16,20 @@ import net.tbennett.popularmovies.R;
 import net.tbennett.popularmovies.util.Utility;
 import net.tbennett.popularmovies.data.gson.Movie;
 
+/**
+ * An adaptor for the movie view to render each item as a tile consisting
+ * of an image and a small overlay
+ */
 public class ImageAdapter extends ArrayAdapter<Movie> {
 
     //Store the pixel dimensions we want for each image
-    private int imageWidth;
-    private int imageHeight;
+    private int mImageWidth;
+    private int mImageHeight;
 
     public ImageAdapter(Context context, int resource) {
         super(context, resource);
-        imageWidth = context.getResources().getDimensionPixelSize(R.dimen.movie_tile_width);
-        imageHeight = context.getResources().getDimensionPixelSize(R.dimen.movie_tile_height);
+        mImageWidth = context.getResources().getDimensionPixelSize(R.dimen.movie_tile_width);
+        mImageHeight = context.getResources().getDimensionPixelSize(R.dimen.movie_tile_height);
     }
 
     @Override
@@ -41,13 +45,13 @@ public class ImageAdapter extends ArrayAdapter<Movie> {
         TextView rating = (TextView) view.findViewById(R.id.movie_vote_average);
         TextView year = (TextView) view.findViewById(R.id.movie_year);
 
-        //Retrieve and load the poster image for this movie
         Movie thisMovie = getItem(position);
+        //Retrieve and load the poster image for this movie
         Picasso.with(context)
                 .load(Utility.buildImageUri(context, thisMovie.posterPath, Utility.ImageType.IMAGE))
                 .placeholder(R.drawable.movie_tile_placeholder)
                 .error(R.drawable.no_image_placeholder)
-                .resize(imageWidth, imageHeight)
+                .resize(mImageWidth, mImageHeight)
                 .centerCrop()
                 .into(image);
         rating.setText(context.getString(R.string.format_rating_overlay, thisMovie.voteAverage));

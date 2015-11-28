@@ -17,6 +17,9 @@ import net.tbennett.popularmovies.R;
 import net.tbennett.popularmovies.data.gson.Movie;
 import net.tbennett.popularmovies.util.Utility;
 
+/**
+ * Displays details of a specific movie chosen by the user
+ */
 public class MovieDetailFragment extends Fragment {
 
     private Movie mMovie;
@@ -30,11 +33,13 @@ public class MovieDetailFragment extends Fragment {
         Intent intent = getActivity().getIntent();
         mContext = getContext();
 
+        //Retrieve the dimensions for the images
         int backdropImageWidth = mContext.getResources().getDimensionPixelSize(R.dimen.movie_backdrop_width);
         int backdropImageHeight = mContext.getResources().getDimensionPixelSize(R.dimen.movie_backdrop_height);
         int imageWidth = mContext.getResources().getDimensionPixelSize(R.dimen.movie_thumb_width);
         int imageHeight = mContext.getResources().getDimensionPixelSize(R.dimen.movie_thumb_height);
 
+        //Retrieve the details for the selected movie
         if(intent != null && intent.hasExtra(Intent.EXTRA_TEXT)){
             mMovie = (Movie) intent.getParcelableExtra(Intent.EXTRA_TEXT);
 

@@ -12,14 +12,25 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+/**
+ * Helper methods
+ */
 public class Utility {
 
+    //Backdrop images are displayed larger on the details page
     public enum ImageType {
         IMAGE, BACKDROP
     }
 
     public static String getLogTag(Class clazz) { return clazz.getSimpleName(); }
 
+    /**
+     * Constructs a URI for accessing TMDB /discover API
+     * @param c Context
+     * @param sortBy the sort order query param to use
+     * @param page the page number query param to use
+     * @return the constructed URI
+     */
     public static Uri buildMovieDBUri(Context c, String sortBy, String page) {
         Uri builtUri = Uri.parse(c.getString(R.string.tmdb_api_base)).buildUpon()
                 .appendPath(c.getString(R.string.tmdb_api_version))
@@ -31,6 +42,13 @@ public class Utility {
         return builtUri;
     }
 
+    /**
+     * Constructs a URI for accessing an image on TMDB
+     * @param c Context
+     * @param imagePath Relative path to the image
+     * @param imageType Whether the image is a backdrop or standard
+     * @return the constructed URI
+     */
     public static Uri buildImageUri(Context c, String imagePath, ImageType imageType) {
         String imageSize;
         switch(imageType) {
@@ -48,6 +66,12 @@ public class Utility {
         return builtUri;
     }
 
+    /**
+     * Given a yyyy-MM-dd formatted date string, returns just the year as yyyy
+     * @param c Context
+     * @param dateString to convert
+     * @return the yyyy formatted date string, or "" if there was any problem parsing
+     */
     public static String getShortDateString(Context c, String dateString) {
         SimpleDateFormat fromFormat = new SimpleDateFormat(c.getString(R.string.date_format_tmdb_api), Locale.getDefault());
         SimpleDateFormat toFormat = new SimpleDateFormat(c.getString(R.string.date_format_year), Locale.getDefault());

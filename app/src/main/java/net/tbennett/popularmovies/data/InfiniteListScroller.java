@@ -15,6 +15,8 @@ public abstract class InfiniteListScroller implements AbsListView.OnScrollListen
     private int previousTotalItemCount = 0;
     //Whether a load is currently taking place
     private boolean loading = true;
+    //Number of items returned per page of TMDB API
+    private int itemsPerPage = 20;
 
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {}
@@ -23,7 +25,7 @@ public abstract class InfiniteListScroller implements AbsListView.OnScrollListen
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
         //How many items are not yet in view and still remain scrollable
         int remainingToScroll = totalItemCount - (firstVisibleItem + visibleItemCount);
-        int nextPage = (totalItemCount/20) + 1; //Calculate the next page based on the number of items loaded
+        int nextPage = (totalItemCount/itemsPerPage) + 1; //Calculate the next page based on the number of items loaded
 
         //Check if a current load in progress has finished
         if(totalItemCount > previousTotalItemCount){

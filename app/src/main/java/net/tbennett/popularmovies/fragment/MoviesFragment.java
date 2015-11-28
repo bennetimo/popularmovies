@@ -35,21 +35,21 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+/**
+ * Displays all of the movies in a grid
+ */
 public class MoviesFragment extends Fragment {
 
     private final String LOG_TAG = Utility.getLogTag(this.getClass());
     private ImageAdapter mImageAdapter;
     private SharedPreferences mSharedPref;
-
-    //Keep track of the current sort order- if it changes, reload the movies
-    private String currentSortOrder;
-
-    private InfiniteListScroller scroller;
+    private String mCurrentSortOrder;
+    private InfiniteListScroller mScroller;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRetainInstance(true);
+        setRetainInstance(true); //Retain this fragment on rotation etc
         setHasOptionsMenu(true);
         mImageAdapter = new ImageAdapter(getActivity(), R.layout.movie_tile);
     }
@@ -60,20 +60,19 @@ public class MoviesFragment extends Fragment {
         View fragmentView = inflater.inflate(R.layout.fragment_movies, container, false);
 
         mSharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        currentSortOrder = getCurrentSortOrder();
+        mCurrentSortOrder = getCurrentSortOrder();
 
         GridView movieView = (GridView) fragmentView.findViewById(R.id.grid_movies);
         movieView.setAdapter(mImageAdapter);
 
-        scroller = new InfiniteListScroller() {
+        mScroller = new InfiniteListScroller() {
             @Override
             public boolean onLoadMore(int page) {
                 retrieveMovies(page);
                 return true;
             }
         };
-
-        movieView.setOnScrollListener(scroller);
+        movieView.setOnScrollListener(mScroller);
 
         movieView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -99,14 +98,15 @@ public class MoviesFragment extends Fragment {
         //Check to see if the sort order has changed, and if it has retrieve the movies again
         if(mSharedPref != null){
             String sortOrder = getCurrentSortOrder();
-            if(currentSortOrder != sortOrder){
-                currentSortOrder = sortOrder;
+            if(mCurrentSortOrder != sortOrder){
+                mCurrentSortOrder = sortOrder;
                 mImageAdapter.clear();
-                scroller.resetPreviousTotalItemCount();
+                mScroller.resetPreviousTotalItemCount();
             }
         }
     }
 
+    //Retrieves the current sorting preference
     private String getCurrentSortOrder(){
         if(mSharedPref != null) {
             return mSharedPref.getString(getString(R.string.pref_key_sort), getString(R.string.pref_default_sort));
@@ -190,7 +190,6 @@ public class MoviesFragment extends Fragment {
                 }
 
                 String retrievedJson = buffer.toString();
-                Log.d(LOG_TAG, "Retrieved: " + retrievedJson);
 
                 Gson gson = new Gson();
                 Movies movies = gson.fromJson(retrievedJson, Movies.class);
