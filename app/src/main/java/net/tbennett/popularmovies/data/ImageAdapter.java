@@ -46,6 +46,7 @@ public class ImageAdapter extends ArrayAdapter<Movie> {
         Picasso.with(context)
                 .load(Utility.buildImageUri(context, thisMovie.posterPath, Utility.ImageType.IMAGE))
                 .placeholder(R.drawable.movie_tile_placeholder)
+                .error(R.drawable.no_image_placeholder)
                 .resize(imageWidth, imageHeight)
                 .centerCrop()
                 .into(image);
