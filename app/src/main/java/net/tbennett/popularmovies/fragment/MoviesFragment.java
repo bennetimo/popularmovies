@@ -23,6 +23,7 @@ import net.tbennett.popularmovies.activity.SettingsActivity;
 import net.tbennett.popularmovies.data.ImageAdapter;
 import net.tbennett.popularmovies.R;
 import net.tbennett.popularmovies.data.InfiniteListScroller;
+import net.tbennett.popularmovies.task.FetchMoviesTask;
 import net.tbennett.popularmovies.util.Utility;
 import net.tbennett.popularmovies.activity.MovieDetailActivity;
 import net.tbennett.popularmovies.data.gson.Movie;
@@ -120,7 +121,7 @@ public class MoviesFragment extends Fragment {
     private void retrieveMovies(int page) {
         String sortOrder = getCurrentSortOrder();
         Log.d(LOG_TAG, "Retrieving movies page: " + page);
-        new FetchMoviesTask().execute(sortOrder, "" + page);
+        new FetchMoviesTask(mImageAdapter, getContext()).execute(sortOrder, "" + page);
     }
 
     @Override
@@ -136,80 +137,6 @@ public class MoviesFragment extends Fragment {
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public class FetchMoviesTask extends AsyncTask<String, Void, Movies> {
-
-        private final String LOG_TAG = Utility.getLogTag(this.getClass());
-
-        @Override
-        protected void onPostExecute(Movies movies) {
-            if(movies != null) {
-                for (Movie movie : movies.movies) {
-                    mImageAdapter.add(movie);
-                }
-            }
-        }
-
-        protected Movies doInBackground(String... params) {
-            if(params.length != 2) {
-                Log.d(LOG_TAG, "FetchMoviesTask was called without the sort order or page specified");
-            }
-            final String sortBy = params[0];
-            final String page = params[1];
-
-            HttpURLConnection urlConnection = null;
-            BufferedReader reader = null;
-
-            try {
-                //Connect to The Movie DB
-                URL url = new URL(Utility.buildMovieDBUri(getContext(), sortBy, page).toString());
-                urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setRequestMethod("GET");
-                urlConnection.connect();
-
-                //Retrieve the results
-                InputStream inputStream = urlConnection.getInputStream();
-                StringBuffer buffer = new StringBuffer();
-
-                //Empty input
-                if(inputStream == null) {
-                    return null;
-                }
-
-                reader = new BufferedReader(new InputStreamReader(inputStream));
-
-                String line;
-                while((line = reader.readLine()) != null){
-                    buffer.append(line + "\n");
-                }
-
-                if(buffer.length() == 0) {
-                    Log.d(LOG_TAG, "The response from TMDB was empty");
-                    return null;
-                }
-
-                String retrievedJson = buffer.toString();
-
-                Gson gson = new Gson();
-                Movies movies = gson.fromJson(retrievedJson, Movies.class);
-                return movies;
-            } catch (IOException e) {
-                Log.e(LOG_TAG, "Error: ", e);
-                return null;
-            } finally {
-                if(urlConnection != null){
-                    urlConnection.disconnect();
-                }
-                if(reader != null) {
-                    try {
-                        reader.close();
-                    } catch (final IOException e) {
-                        Log.e(LOG_TAG, "Error closing stream", e);
-                    }
-                }
-            }
-        }
     }
 
 }
