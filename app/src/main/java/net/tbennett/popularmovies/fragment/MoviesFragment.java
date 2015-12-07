@@ -85,8 +85,9 @@ public class MoviesFragment extends Fragment {
             }
         });
 
-        if(savedInstanceState == null){
-            //Initially populate the movies
+        if(savedInstanceState == null || mImageAdapter.isEmpty()){
+            //Initially populate the movies. This happens after the activity has been destroyed and
+            //recreated also
             retrieveMovies(1);
         }
 
