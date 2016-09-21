@@ -34,6 +34,7 @@ captures/
 # IDEA files
 /.idea/workspace.xml
 /.idea/libraries
+/projectFilesBackup
 
 # Misc files
 .DS_Store
