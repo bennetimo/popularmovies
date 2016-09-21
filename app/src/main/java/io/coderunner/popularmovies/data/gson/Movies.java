@@ -1,4 +1,4 @@
-package net.tbennett.popularmovies.data.gson;
+package io.coderunner.popularmovies.data.gson;
 
 import com.google.gson.annotations.SerializedName;
 

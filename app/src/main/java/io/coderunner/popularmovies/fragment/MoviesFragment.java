@@ -1,8 +1,7 @@
-package net.tbennett.popularmovies.fragment;
+package io.coderunner.popularmovies.fragment;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -17,24 +16,14 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
-import com.google.gson.Gson;
-
-import net.tbennett.popularmovies.activity.SettingsActivity;
-import net.tbennett.popularmovies.data.ImageAdapter;
-import net.tbennett.popularmovies.R;
-import net.tbennett.popularmovies.data.InfiniteListScroller;
-import net.tbennett.popularmovies.task.FetchMoviesTask;
-import net.tbennett.popularmovies.util.Utility;
-import net.tbennett.popularmovies.activity.MovieDetailActivity;
-import net.tbennett.popularmovies.data.gson.Movie;
-import net.tbennett.popularmovies.data.gson.Movies;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import io.coderunner.popularmovies.activity.SettingsActivity;
+import io.coderunner.popularmovies.data.ImageAdapter;
+import io.coderunner.popularmovies.R;
+import io.coderunner.popularmovies.data.InfiniteListScroller;
+import io.coderunner.popularmovies.task.FetchMoviesTask;
+import io.coderunner.popularmovies.util.Utility;
+import io.coderunner.popularmovies.activity.MovieDetailActivity;
+import io.coderunner.popularmovies.data.gson.Movie;
 
 /**
  * Displays all of the movies in a grid

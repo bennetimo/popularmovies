@@ -1,4 +1,4 @@
-package net.tbennett.popularmovies.fragment;
+package io.coderunner.popularmovies.fragment;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,9 +13,9 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import net.tbennett.popularmovies.R;
-import net.tbennett.popularmovies.data.gson.Movie;
-import net.tbennett.popularmovies.util.Utility;
+import io.coderunner.popularmovies.R;
+import io.coderunner.popularmovies.data.gson.Movie;
+import io.coderunner.popularmovies.util.Utility;
 
 /**
  * Displays details of a specific movie chosen by the user

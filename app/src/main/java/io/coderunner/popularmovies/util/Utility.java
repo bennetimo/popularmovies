@@ -1,11 +1,11 @@
-package net.tbennett.popularmovies.util;
+package io.coderunner.popularmovies.util;
 
 import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
-import net.tbennett.popularmovies.BuildConfig;
-import net.tbennett.popularmovies.R;
+import io.coderunner.popularmovies.BuildConfig;
+import io.coderunner.popularmovies.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

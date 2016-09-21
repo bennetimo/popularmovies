@@ -1,4 +1,4 @@
-package net.tbennett.popularmovies.task;
+package io.coderunner.popularmovies.task;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -6,10 +6,10 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
-import net.tbennett.popularmovies.data.ImageAdapter;
-import net.tbennett.popularmovies.data.gson.Movie;
-import net.tbennett.popularmovies.data.gson.Movies;
-import net.tbennett.popularmovies.util.Utility;
+import io.coderunner.popularmovies.data.ImageAdapter;
+import io.coderunner.popularmovies.data.gson.Movie;
+import io.coderunner.popularmovies.data.gson.Movies;
+import io.coderunner.popularmovies.util.Utility;
 
 import java.io.BufferedReader;
 import java.io.IOException;

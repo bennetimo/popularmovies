@@ -1,4 +1,4 @@
-package net.tbennett.popularmovies.data;
+package io.coderunner.popularmovies.data;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,9 +12,9 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import net.tbennett.popularmovies.R;
-import net.tbennett.popularmovies.util.Utility;
-import net.tbennett.popularmovies.data.gson.Movie;
+import io.coderunner.popularmovies.R;
+import io.coderunner.popularmovies.util.Utility;
+import io.coderunner.popularmovies.data.gson.Movie;
 
 /**
  * An adaptor for the movie view to render each item as a tile consisting

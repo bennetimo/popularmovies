@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/fragment_movies"
-    tools:context="net.tbennett.popularmovies.fragment.MoviesFragment">
+    tools:context="io.coderunner.popularmovies.fragment.MoviesFragment">
 
     <GridView
         android:id="@+id/grid_movies"

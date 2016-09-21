@@ -1,4 +1,4 @@
-package net.tbennett.popularmovies;
+package io.coderunner.popularmovies;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

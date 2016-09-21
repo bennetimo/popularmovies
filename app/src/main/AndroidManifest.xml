@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="net.tbennett.popularmovies" >
+    package="io.coderunner.popularmovies" >
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -10,25 +10,25 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
-        <activity android:name=".activity.MainActivity" >
+        <activity android:name="io.coderunner.popularmovies.activity.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.MovieDetailActivity"
-            android:parentActivityName=".activity.MainActivity">
+        <activity android:name="io.coderunner.popularmovies.activity.MovieDetailActivity"
+            android:parentActivityName="io.coderunner.popularmovies.activity.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="net.tbennett.popularmovies.activity.MainActivity" />
+                android:value="io.coderunner.popularmovies.activity.MainActivity" />
         </activity>
-        <activity android:name=".activity.SettingsActivity"
+        <activity android:name="io.coderunner.popularmovies.activity.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".activity.MainActivity">
+            android:parentActivityName="io.coderunner.popularmovies.activity.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="net.tbennett.popularmovies.activity.MainActivity" />
+                android:value="io.coderunner.popularmovies.activity.MainActivity" />
         </activity>
     </application>
 

@@ -6,7 +6,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="net.tbennett.popularmovies.fragment.MovieDetailFragment"
+        tools:context="io.coderunner.popularmovies.fragment.MovieDetailFragment"
         android:orientation="vertical">
 
         <FrameLayout

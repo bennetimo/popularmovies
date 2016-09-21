@@ -1,4 +1,4 @@
-package net.tbennett.popularmovies.data;
+package io.coderunner.popularmovies.data;
 
 import android.widget.AbsListView;
 

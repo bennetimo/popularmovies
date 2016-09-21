@@ -1,4 +1,4 @@
-package net.tbennett.popularmovies.activity;
+package io.coderunner.popularmovies.activity;
 
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -6,7 +6,7 @@ import android.preference.PreferenceActivity;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
-import net.tbennett.popularmovies.R;
+import io.coderunner.popularmovies.R;
 
 public class SettingsActivity extends PreferenceActivity implements Preference.OnPreferenceChangeListener {
 

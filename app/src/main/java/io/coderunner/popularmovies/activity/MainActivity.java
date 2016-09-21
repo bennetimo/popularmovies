@@ -1,10 +1,10 @@
-package net.tbennett.popularmovies.activity;
+package io.coderunner.popularmovies.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import net.tbennett.popularmovies.fragment.MoviesFragment;
-import net.tbennett.popularmovies.R;
+import io.coderunner.popularmovies.fragment.MoviesFragment;
+import io.coderunner.popularmovies.R;
 
 public class MainActivity extends AppCompatActivity {
 
