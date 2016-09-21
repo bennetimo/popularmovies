@@ -7,6 +7,12 @@ import android.util.Log;
 import io.coderunner.popularmovies.BuildConfig;
 import io.coderunner.popularmovies.R;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -31,12 +37,80 @@ public class Utility {
      * @param page the page number query param to use
      * @return the constructed URI
      */
-    public static Uri buildMovieDBUri(Context c, String sortBy, String page) {
+    public static Uri buildDiscoverUri(Context c, String sortBy, String page) {
         Uri builtUri = Uri.parse(c.getString(R.string.tmdb_api_base)).buildUpon()
                 .appendPath(c.getString(R.string.tmdb_api_version))
                 .appendEncodedPath(c.getString(R.string.tmdb_api_ep_discover))
                 .appendQueryParameter(c.getString(R.string.tmdb_api_qp_sort_order), sortBy)
                 .appendQueryParameter(c.getString(R.string.tmdb_api_qp_page), page)
+                .appendQueryParameter(c.getString(R.string.tmdb_api_qp_api_key), BuildConfig.API_KEY)
+                .build();
+        return builtUri;
+    }
+
+    public static String retrieveData(String LOG_TAG, URL url) {
+        HttpURLConnection urlConnection = null;
+        BufferedReader reader = null;
+
+        try {
+            //Connect to The Movie DB
+            urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setRequestMethod("GET");
+            urlConnection.connect();
+
+            //Retrieve the results
+            InputStream inputStream = urlConnection.getInputStream();
+            StringBuffer buffer = new StringBuffer();
+
+            //Empty input
+            if(inputStream == null) {
+                return null;
+            }
+
+            reader = new BufferedReader(new InputStreamReader(inputStream));
+
+            String line;
+            while((line = reader.readLine()) != null){
+                buffer.append(line + "\n");
+            }
+
+            if(buffer.length() == 0) {
+                Log.d(LOG_TAG, "The response from TMDB was empty");
+                return null;
+            }
+
+            String retrievedJson = buffer.toString();
+            return retrievedJson;
+        } catch (IOException e) {
+            Log.e(LOG_TAG, "Error: ", e);
+            return null;
+        } finally {
+            if(urlConnection != null){
+                urlConnection.disconnect();
+            }
+            if(reader != null) {
+                try {
+                    reader.close();
+                } catch (final IOException e) {
+                    Log.e(LOG_TAG, "Error closing stream", e);
+                }
+            }
+        }
+    }
+
+    /**
+     * Constructs a URI for accessing data from a particular movie
+     * @param c Context
+     * @param movieID the ID of the movie
+     * @param endpoint the endpoint to return data for (e.g. 'videos', 'reviews')
+     * @return the constructed URI
+     */
+    public static Uri buildMovieEndpointUri(Context c, String movieID, String endpoint) {
+        Uri builtUri = Uri.parse(c.getString(R.string.tmdb_api_base)).buildUpon()
+                .appendPath(c.getString(R.string.tmdb_api_version))
+                .appendPath(c.getString(R.string.tmdb_api_movie))
+                .appendEncodedPath(movieID)
+                .appendEncodedPath(endpoint)
                 .appendQueryParameter(c.getString(R.string.tmdb_api_qp_api_key), BuildConfig.API_KEY)
                 .build();
         return builtUri;

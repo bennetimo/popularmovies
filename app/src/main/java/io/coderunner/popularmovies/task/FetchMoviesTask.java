@@ -11,11 +11,7 @@ import io.coderunner.popularmovies.data.gson.Movie;
 import io.coderunner.popularmovies.data.gson.Movies;
 import io.coderunner.popularmovies.util.Utility;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class FetchMoviesTask extends AsyncTask<String, Void, Movies> {
@@ -45,56 +41,16 @@ public class FetchMoviesTask extends AsyncTask<String, Void, Movies> {
         final String sortBy = params[0];
         final String page = params[1];
 
-        HttpURLConnection urlConnection = null;
-        BufferedReader reader = null;
-
         try {
             //Connect to The Movie DB
-            URL url = new URL(Utility.buildMovieDBUri(mContext, sortBy, page).toString());
-            urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setRequestMethod("GET");
-            urlConnection.connect();
-
-            //Retrieve the results
-            InputStream inputStream = urlConnection.getInputStream();
-            StringBuffer buffer = new StringBuffer();
-
-            //Empty input
-            if(inputStream == null) {
-                return null;
-            }
-
-            reader = new BufferedReader(new InputStreamReader(inputStream));
-
-            String line;
-            while((line = reader.readLine()) != null){
-                buffer.append(line + "\n");
-            }
-
-            if(buffer.length() == 0) {
-                Log.d(LOG_TAG, "The response from TMDB was empty");
-                return null;
-            }
-
-            String retrievedJson = buffer.toString();
-
+            URL url = new URL(Utility.buildDiscoverUri(mContext, sortBy, page).toString());
+            String retrievedJson = Utility.retrieveData(LOG_TAG, url);
             Gson gson = new Gson();
             Movies movies = gson.fromJson(retrievedJson, Movies.class);
             return movies;
         } catch (IOException e) {
             Log.e(LOG_TAG, "Error: ", e);
             return null;
-        } finally {
-            if(urlConnection != null){
-                urlConnection.disconnect();
-            }
-            if(reader != null) {
-                try {
-                    reader.close();
-                } catch (final IOException e) {
-                    Log.e(LOG_TAG, "Error closing stream", e);
-                }
-            }
         }
     }
 }

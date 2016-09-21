@@ -18,9 +18,9 @@ public class MovieDetailActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             //Add the movie detail fragment to the view
             getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.container_movie_detail, new MovieDetailFragment(), FRAGMENT_TAG)
-                    .commit();
+                .beginTransaction()
+                .add(R.id.container_movie_detail, new MovieDetailFragment(), FRAGMENT_TAG)
+                .commit();
         }
     }
 }

@@ -6,7 +6,10 @@
     <!-- The Movie DB Uri Strings-->
     <string name="tmdb_api_base">http://api.themoviedb.org</string>
     <string name="tmdb_api_version">3</string>
+    <string name="tmdb_api_movie">movie</string>
     <string name="tmdb_api_ep_discover">discover/movie</string>
+    <string name="tmdb_api_ep_videos">videos</string>
+    <string name="tmdb_api_ep_reviews">reviews</string>
     <string name="tmdb_api_qp_sort_order">sort_by</string>
     <string name="tmdb_api_qp_api_key">api_key</string>
     <string name="tmdb_api_qp_page">page</string>
@@ -24,6 +27,7 @@
     <string name="format_rating_overlay">\u2665 <xliff:g id="rating">%1.0f</xliff:g></string>
     <string name="format_rating">\u2665 <xliff:g id="rating">%1.0f</xliff:g></string>
     <string name="format_releasedate"><xliff:g id="releasedate">%s</xliff:g></string>
+    <string name="format_review">&lt;b>author: <xliff:g id="author">%s&lt;/b>&lt;br /&gt;</xliff:g><xliff:g id="review">%s</xliff:g></string>
 
     <!-- Preference Strings-->
     <string name="pref_key_sort" translatable="false">sort</string>
@@ -45,6 +49,7 @@
     <string name="label_rating">User Rating</string>
     <string name="label_releasedate">Release Date</string>
     <string name="label_original_language">Original Language</string>
+    <string name="label_reviews">Reviews</string>
 
     <!-- Date Format Strings-->
     <string name="date_format_tmdb_api" translatable="false">yyyy-MM-dd</string>
