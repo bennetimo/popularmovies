@@ -2,12 +2,14 @@ package io.coderunner.popularmovies.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -105,6 +107,17 @@ public class MovieDetailFragment extends Fragment {
 
             ListView trailers = (ListView) rootView.findViewById(R.id.movie_detail_trailers);
             trailers.setAdapter(mTrailersAdapter);
+
+            trailers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    //Launch the movie detail activity for this movie
+                    Trailer trailer = mTrailersAdapter.getItem(position);
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=" + trailer.key));
+                    startActivity(intent);
+                }
+            });
+
             retrieveTrailers();
         }
 

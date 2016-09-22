@@ -2,7 +2,6 @@ package io.coderunner.popularmovies.data.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +30,7 @@ public class TrailerAdapter extends ArrayAdapter<Trailer> {
         LinearLayout view = (convertView == null) ? (LinearLayout) inflater.inflate(R.layout.trailer, null) :
                 (LinearLayout) convertView;
 
-        TextView trailer = (TextView) view.findViewById(R.id.trailer_content);
+        TextView trailer = (TextView) view.findViewById(R.id.trailer_name);
 
         Trailer thisTrailer = getItem(position);
 
