@@ -2,15 +2,12 @@ package io.coderunner.popularmovies.fragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -20,7 +17,9 @@ import com.squareup.picasso.Picasso;
 import io.coderunner.popularmovies.R;
 import io.coderunner.popularmovies.data.ReviewAdapter;
 import io.coderunner.popularmovies.data.gson.Movie;
-import io.coderunner.popularmovies.task.FetchReviewsTask;
+import io.coderunner.popularmovies.data.gson.Review;
+import io.coderunner.popularmovies.data.gson.Reviews;
+import io.coderunner.popularmovies.task.FetchMovieDataTask;
 import io.coderunner.popularmovies.util.Utility;
 
 /**
@@ -104,6 +103,7 @@ public class MovieDetailFragment extends Fragment {
     }
 
     private void retrieveReviews() {
-        new FetchReviewsTask(mReviewAdapter, getContext()).execute("" + mMovie.id);
+        String endpoint = mContext.getString(R.string.tmdb_api_ep_reviews);
+        new FetchMovieDataTask<Review, Reviews>(mReviewAdapter, getContext(), Reviews.class).execute("" + mMovie.id, endpoint);
     }
 }
