@@ -13,4 +13,6 @@
 
     <dimen name="movie_backdrop_height">192dp</dimen>
     <dimen name="movie_backdrop_width">342dp</dimen>
+
+    <dimen name="moviedata_listview_min_height">50dp</dimen>
 </resources>

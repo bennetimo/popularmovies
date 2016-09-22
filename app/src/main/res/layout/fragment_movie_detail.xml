@@ -130,6 +130,20 @@
                 android:layout_marginTop="10dp"/>
 
             <TextView
+                android:id="@+id/movie_detail_trailers_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/label_trailers"
+                style="@style/subheading"/>
+
+            <ListView
+                android:id="@+id/movie_detail_trailers"
+                android:layout_width="wrap_content"
+                android:layout_height="80dp"
+                android:nestedScrollingEnabled="true"/>
+
+            <TextView
                 android:id="@+id/movie_detail_reviews_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

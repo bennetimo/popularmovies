@@ -6,7 +6,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
-import io.coderunner.popularmovies.data.ImageAdapter;
+import io.coderunner.popularmovies.data.adapter.ImageAdapter;
 import io.coderunner.popularmovies.data.gson.Movie;
 import io.coderunner.popularmovies.data.gson.Movies;
 import io.coderunner.popularmovies.util.Utility;

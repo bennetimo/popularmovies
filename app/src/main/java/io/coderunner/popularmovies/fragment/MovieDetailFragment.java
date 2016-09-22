@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -15,10 +16,12 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import io.coderunner.popularmovies.R;
-import io.coderunner.popularmovies.data.ReviewAdapter;
+import io.coderunner.popularmovies.data.adapter.ReviewAdapter;
+import io.coderunner.popularmovies.data.adapter.TrailerAdapter;
 import io.coderunner.popularmovies.data.gson.Movie;
-import io.coderunner.popularmovies.data.gson.Review;
 import io.coderunner.popularmovies.data.gson.Reviews;
+import io.coderunner.popularmovies.data.gson.Trailer;
+import io.coderunner.popularmovies.data.gson.Trailers;
 import io.coderunner.popularmovies.task.FetchMovieDataTask;
 import io.coderunner.popularmovies.util.Utility;
 
@@ -31,11 +34,13 @@ public class MovieDetailFragment extends Fragment {
     private Context mContext;
 
     private ReviewAdapter mReviewAdapter;
+    private ArrayAdapter<Trailer> mTrailersAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mReviewAdapter = new ReviewAdapter(getActivity(), R.layout.review);
+        mTrailersAdapter = new TrailerAdapter(getActivity(), R.layout.review);
     }
 
     @Nullable
@@ -97,6 +102,10 @@ public class MovieDetailFragment extends Fragment {
             ListView reviews = (ListView) rootView.findViewById(R.id.movie_detail_reviews);
             reviews.setAdapter(mReviewAdapter);
             retrieveReviews();
+
+            ListView trailers = (ListView) rootView.findViewById(R.id.movie_detail_trailers);
+            trailers.setAdapter(mTrailersAdapter);
+            retrieveTrailers();
         }
 
         return rootView;
@@ -104,6 +113,11 @@ public class MovieDetailFragment extends Fragment {
 
     private void retrieveReviews() {
         String endpoint = mContext.getString(R.string.tmdb_api_ep_reviews);
-        new FetchMovieDataTask<Review, Reviews>(mReviewAdapter, getContext(), Reviews.class).execute("" + mMovie.id, endpoint);
+        new FetchMovieDataTask<>(mReviewAdapter, getContext(), Reviews.class).execute("" + mMovie.id, endpoint);
+    }
+
+    private void retrieveTrailers() {
+        String endpoint = mContext.getString(R.string.tmdb_api_ep_trailers);
+        new FetchMovieDataTask<>(mTrailersAdapter, getContext(), Trailers.class).execute("" + mMovie.id, endpoint);
     }
 }

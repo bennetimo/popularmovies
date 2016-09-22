@@ -1,4 +1,4 @@
-package io.coderunner.popularmovies.data;
+package io.coderunner.popularmovies.data.adapter;
 
 import android.app.Activity;
 import android.content.Context;

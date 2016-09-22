@@ -17,7 +17,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 
 import io.coderunner.popularmovies.activity.SettingsActivity;
-import io.coderunner.popularmovies.data.ImageAdapter;
+import io.coderunner.popularmovies.data.adapter.ImageAdapter;
 import io.coderunner.popularmovies.R;
 import io.coderunner.popularmovies.data.InfiniteListScroller;
 import io.coderunner.popularmovies.task.FetchMoviesTask;
