@@ -3,12 +3,10 @@ package io.coderunner.popularmovies.fragment;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -134,7 +132,6 @@ public class MovieDetailFragment extends Fragment {
             });
 
             retrieveTrailers();
-            getFavourites();
         }
 
         return rootView;
@@ -165,29 +162,4 @@ public class MovieDetailFragment extends Fragment {
         getActivity().getContentResolver().insert(MovieContract.MovieEntry.CONTENT_URI, values);
     }
 
-    private void getFavourites(){
-        Uri uri = MovieContract.MovieEntry.CONTENT_URI;
-        String[] projection = { MovieContract.MovieEntry.COLUMN_TITLE, MovieContract.MovieEntry.COLUMN_PLOT_SYNOPSYS};
-        Cursor cursor = getActivity().getContentResolver().query(uri, projection, null, null,
-                null);
-
-
-        String favourite = "Favourites: ";
-        if (cursor != null) {
-            cursor.moveToFirst();
-            while(!cursor.isAfterLast()) {
-                String plot = cursor.getString(cursor
-                        .getColumnIndexOrThrow(MovieContract.MovieEntry.COLUMN_PLOT_SYNOPSYS));
-                Log.d("plot: ",  plot);
-
-                favourite = favourite + ", " + cursor.getString(cursor
-                        .getColumnIndexOrThrow(MovieContract.MovieEntry.COLUMN_TITLE));
-
-                cursor.moveToNext();
-            }
-            cursor.close();
-        }
-        Log.d("movie", mMovie.title);
-        Log.d("test", favourite);
-    }
 }

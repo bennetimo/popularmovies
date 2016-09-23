@@ -20,6 +20,7 @@ import io.coderunner.popularmovies.activity.SettingsActivity;
 import io.coderunner.popularmovies.data.adapter.ImageAdapter;
 import io.coderunner.popularmovies.R;
 import io.coderunner.popularmovies.data.InfiniteListScroller;
+import io.coderunner.popularmovies.task.DisplayFavouritesTask;
 import io.coderunner.popularmovies.task.FetchMoviesTask;
 import io.coderunner.popularmovies.util.Utility;
 import io.coderunner.popularmovies.activity.MovieDetailActivity;
@@ -58,7 +59,10 @@ public class MoviesFragment extends Fragment {
         mScroller = new InfiniteListScroller() {
             @Override
             public boolean onLoadMore(int page) {
-                retrieveMovies(page);
+                //If displaying favourites, there are no more items to load
+                boolean allowLoad = (mCurrentSortOrder.equals(getString(R.string.pref_array_sort_favourite))) ? false : true;
+                if(allowLoad)
+                    retrieveMovies(page);
                 return true;
             }
         };
@@ -93,6 +97,7 @@ public class MoviesFragment extends Fragment {
                 mCurrentSortOrder = sortOrder;
                 mImageAdapter.clear();
                 mScroller.resetPreviousTotalItemCount();
+                retrieveMovies(1);
             }
         }
     }
@@ -110,8 +115,14 @@ public class MoviesFragment extends Fragment {
      */
     private void retrieveMovies(int page) {
         String sortOrder = getCurrentSortOrder();
-        Log.d(LOG_TAG, "Retrieving movies page: " + page);
-        new FetchMoviesTask(mImageAdapter, getContext()).execute(sortOrder, "" + page);
+
+        if(sortOrder.equals(getString(R.string.pref_array_sort_favourite))){
+            Log.d(LOG_TAG, "Retrieving favourite movies: " + page);
+            new DisplayFavouritesTask(mImageAdapter, getContext()).execute();
+        } else {
+            Log.d(LOG_TAG, "Retrieving movies page: " + page);
+            new FetchMoviesTask(mImageAdapter, getContext()).execute(sortOrder, "" + page);
+        }
     }
 
     @Override

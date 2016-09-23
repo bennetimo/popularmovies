@@ -13,6 +13,11 @@ public class Movies {
     @SerializedName("results")
     public List<Movie> movies = new ArrayList<Movie>();
 
+    public Movies(List<Movie> movies, int page) {
+        this.movies = movies;
+        this.page = page;
+    }
+
     @Override
     public String toString() {
         return "Movies{" +
