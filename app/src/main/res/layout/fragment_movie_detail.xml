@@ -60,6 +60,13 @@
                         android:visibility="gone"
                         style="@style/subheading"/>
 
+                    <Button
+                        android:id="@+id/movie_detail_favourite_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_favourite" >
+                    </Button>
+
                 </LinearLayout>
 
             </LinearLayout>

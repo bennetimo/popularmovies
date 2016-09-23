@@ -48,6 +48,7 @@
     <!-- Movie Detail Labels -->
     <string name="label_plot">Plot Summary</string>
     <string name="label_rating">User Rating</string>
+    <string name="label_favourite">\u2795 Favourite</string>
     <string name="label_releasedate">Release Date</string>
     <string name="label_original_language">Original Language</string>
     <string name="label_reviews">Reviews</string>

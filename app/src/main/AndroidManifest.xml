@@ -30,6 +30,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="io.coderunner.popularmovies.activity.MainActivity" />
         </activity>
+
+        <provider
+            android:name=".data.MovieProvider"
+            android:authorities="io.coderunner.popularmovies" >
+        </provider>
+
     </application>
 
 </manifest>

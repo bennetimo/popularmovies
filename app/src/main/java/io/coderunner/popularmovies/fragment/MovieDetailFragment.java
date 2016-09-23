@@ -1,23 +1,29 @@
 package io.coderunner.popularmovies.fragment;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
 import io.coderunner.popularmovies.R;
+import io.coderunner.popularmovies.data.MovieContract;
 import io.coderunner.popularmovies.data.adapter.ReviewAdapter;
 import io.coderunner.popularmovies.data.adapter.TrailerAdapter;
 import io.coderunner.popularmovies.data.gson.Movie;
@@ -92,6 +98,15 @@ public class MovieDetailFragment extends Fragment {
             TextView plot = (TextView) rootView.findViewById(R.id.movie_detail_plot);
             plot.setText(Utility.valueOrDefault(mContext, mContext.getString(R.string.format_plot, mMovie.plotSynopsis)));
 
+            Button addFavourite = (Button) rootView.findViewById(R.id.movie_detail_favourite_button);
+            addFavourite.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    Toast.makeText(getActivity(), "Favourite recorded",
+                            Toast.LENGTH_LONG).show();
+                    markFavourite();
+                }
+            });
+
             TextView rating = (TextView) rootView.findViewById(R.id.movie_detail_rating);
             rating.setText(Utility.valueOrDefault(mContext, mContext.getString(R.string.format_rating, mMovie.voteAverage)));
 
@@ -119,6 +134,7 @@ public class MovieDetailFragment extends Fragment {
             });
 
             retrieveTrailers();
+            getFavourites();
         }
 
         return rootView;
@@ -132,5 +148,46 @@ public class MovieDetailFragment extends Fragment {
     private void retrieveTrailers() {
         String endpoint = mContext.getString(R.string.tmdb_api_ep_trailers);
         new FetchMovieDataTask<>(mTrailersAdapter, getContext(), Trailers.class).execute("" + mMovie.id, endpoint);
+    }
+
+    private void markFavourite(){
+        ContentValues values = new ContentValues();
+        values.put(MovieContract.MovieEntry.COLUMN_MOVIE_ID, mMovie.id);
+        values.put(MovieContract.MovieEntry.COLUMN_BACKDROP_PATH, mMovie.backdropPath);
+        values.put(MovieContract.MovieEntry.COLUMN_ORIGINAL_LANGUAGE, mMovie.originalLanguage);
+        values.put(MovieContract.MovieEntry.COLUMN_ORIGINAL_TITLE, mMovie.originalTitle);
+        values.put(MovieContract.MovieEntry.COLUMN_PLOT_SYNOPSYS, mMovie.plotSynopsis);
+        values.put(MovieContract.MovieEntry.COLUMN_RELEASE_DATE, mMovie.releaseDate);
+        values.put(MovieContract.MovieEntry.COLUMN_POSTER_PATH, mMovie.posterPath);
+        values.put(MovieContract.MovieEntry.COLUMN_POPULARITY, mMovie.popularity);
+        values.put(MovieContract.MovieEntry.COLUMN_VOTE_AVERAGE, mMovie.voteAverage);
+        values.put(MovieContract.MovieEntry.COLUMN_TITLE, mMovie.title);
+        getActivity().getContentResolver().insert(MovieContract.MovieEntry.CONTENT_URI, values);
+    }
+
+    private void getFavourites(){
+        Uri uri = MovieContract.MovieEntry.CONTENT_URI;
+        String[] projection = { MovieContract.MovieEntry.COLUMN_TITLE, MovieContract.MovieEntry.COLUMN_PLOT_SYNOPSYS};
+        Cursor cursor = getActivity().getContentResolver().query(uri, projection, null, null,
+                null);
+
+
+        String favourite = "Favourites: ";
+        if (cursor != null) {
+            cursor.moveToFirst();
+            while(!cursor.isAfterLast()) {
+                String plot = cursor.getString(cursor
+                        .getColumnIndexOrThrow(MovieContract.MovieEntry.COLUMN_PLOT_SYNOPSYS));
+                Log.d("plot: ",  plot);
+
+                favourite = favourite + ", " + cursor.getString(cursor
+                        .getColumnIndexOrThrow(MovieContract.MovieEntry.COLUMN_TITLE));
+
+                cursor.moveToNext();
+            }
+            cursor.close();
+        }
+        Log.d("movie", mMovie.title);
+        Log.d("test", favourite);
     }
 }
