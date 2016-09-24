@@ -2,6 +2,7 @@ package io.coderunner.popularmovies.fragment;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -37,6 +38,11 @@ public class MoviesFragment extends Fragment {
     private String mCurrentSortOrder;
     private InfiniteListScroller mScroller;
 
+    public interface Callback {
+        void onItemSelected(Movie movie);
+        void loadFirstItem(Movie movie);
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,8 +59,20 @@ public class MoviesFragment extends Fragment {
         mSharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         mCurrentSortOrder = getCurrentSortOrder();
 
-        GridView movieView = (GridView) fragmentView.findViewById(R.id.grid_movies);
+        final GridView movieView = (GridView) fragmentView.findViewById(R.id.grid_movies);
         movieView.setAdapter(mImageAdapter);
+
+        // Select the first movie if we're starting and nothing is selected
+        mImageAdapter.registerDataSetObserver(new DataSetObserver() {
+            @Override
+            public void onChanged() {
+                super.onChanged();
+                if(movieView.getSelectedItem() == null && mImageAdapter.getCount() > 0) {
+                    Movie thisMovie = mImageAdapter.getItem(0);
+                    ((Callback) getActivity()).loadFirstItem(thisMovie);
+                }
+            }
+        });
 
         mScroller = new InfiniteListScroller() {
             @Override
@@ -71,10 +89,8 @@ public class MoviesFragment extends Fragment {
         movieView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //Launch the movie detail activity for this movie
                 Movie thisMovie = mImageAdapter.getItem(position);
-                Intent intent = new Intent(getActivity(), MovieDetailActivity.class).putExtra(Intent.EXTRA_TEXT, thisMovie);
-                startActivity(intent);
+                ((Callback) getActivity()).onItemSelected(thisMovie);
             }
         });
 

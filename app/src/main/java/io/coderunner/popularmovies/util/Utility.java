@@ -48,6 +48,12 @@ public class Utility {
         return builtUri;
     }
 
+    /**
+     * Makes a connection to the given URL, returning the data as a string
+     * @param LOG_TAG to use for debugging purposes
+     * @param url to load
+     * @return
+     */
     public static String retrieveData(String LOG_TAG, URL url) {
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;

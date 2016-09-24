@@ -3,6 +3,7 @@ package io.coderunner.popularmovies.fragment;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.DataSetObserver;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -42,6 +43,8 @@ public class MovieDetailFragment extends Fragment {
     private ReviewAdapter mReviewAdapter;
     private ArrayAdapter<Trailer> mTrailersAdapter;
 
+    public static final String DETAIL_URI = "URI";
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,9 +55,18 @@ public class MovieDetailFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView =  inflater.inflate(R.layout.fragment_movie_detail, container, false);
+        final View rootView =  inflater.inflate(R.layout.fragment_movie_detail, container, false);
 
         Intent intent = getActivity().getIntent();
+
+        // Load from intent for one pane, fragment bundle for two pane
+        Bundle arguments = getArguments();
+        if (arguments != null) {
+            mMovie = arguments.getParcelable(MovieDetailFragment.DETAIL_URI);
+        } else if(intent != null && intent.hasExtra(Intent.EXTRA_TEXT)) {
+            mMovie = intent.getParcelableExtra(Intent.EXTRA_TEXT);
+        }
+
         mContext = getContext();
 
         //Retrieve the dimensions for the images
@@ -64,9 +76,7 @@ public class MovieDetailFragment extends Fragment {
         int imageHeight = mContext.getResources().getDimensionPixelSize(R.dimen.movie_thumb_height);
 
         //Retrieve the details for the selected movie
-        if(intent != null && intent.hasExtra(Intent.EXTRA_TEXT)){
-            mMovie = (Movie) intent.getParcelableExtra(Intent.EXTRA_TEXT);
-
+        if(mMovie != null){
             ImageView backdropImage = (ImageView) rootView.findViewById(R.id.movie_backdrop);
             Picasso.with(mContext)
                     .load(Utility.buildImageUri(mContext, mMovie.backdropPath, Utility.ImageType.BACKDROP))
@@ -116,7 +126,6 @@ public class MovieDetailFragment extends Fragment {
 
             ListView reviews = (ListView) rootView.findViewById(R.id.movie_detail_reviews);
             reviews.setAdapter(mReviewAdapter);
-            retrieveReviews();
 
             ListView trailers = (ListView) rootView.findViewById(R.id.movie_detail_trailers);
             trailers.setAdapter(mTrailersAdapter);
@@ -131,22 +140,49 @@ public class MovieDetailFragment extends Fragment {
                 }
             });
 
+            // Make sure the view stays scrolled to the top when reviews/trailers are added
+            mReviewAdapter.registerDataSetObserver(new DataSetObserver() {
+                @Override
+                public void onChanged() {
+                    super.onChanged();
+                    rootView.findViewById(R.id.movie_detail_view).scrollTo(0, 0);
+                }
+            });
+
+            mTrailersAdapter.registerDataSetObserver(new DataSetObserver() {
+                @Override
+                public void onChanged() {
+                    super.onChanged();
+                    rootView.findViewById(R.id.movie_detail_view).scrollTo(0, 0);
+                }
+            });
+
+            retrieveReviews();
             retrieveTrailers();
         }
 
         return rootView;
     }
 
+    /*
+     * Start an async task for retrieving reviews of this movie
+     */
     private void retrieveReviews() {
         String endpoint = mContext.getString(R.string.tmdb_api_ep_reviews);
         new FetchMovieDataTask<>(mReviewAdapter, getContext(), Reviews.class).execute("" + mMovie.id, endpoint);
     }
 
+    /*
+     * Start an async task for retrieving trailers of this movie
+     */
     private void retrieveTrailers() {
         String endpoint = mContext.getString(R.string.tmdb_api_ep_trailers);
         new FetchMovieDataTask<>(mTrailersAdapter, getContext(), Trailers.class).execute("" + mMovie.id, endpoint);
     }
 
+    /**
+     * Use the content provider to save details of this movie to the db
+     */
     private void markFavourite(){
         ContentValues values = new ContentValues();
         values.put(MovieContract.MovieEntry.COLUMN_MOVIE_ID, mMovie.id);

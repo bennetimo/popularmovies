@@ -13,6 +13,11 @@ import java.net.URL;
 import io.coderunner.popularmovies.data.MovieData;
 import io.coderunner.popularmovies.util.Utility;
 
+/**
+ * Generic class to detailed data for a specific type T (trailers, reviews etc)
+ * @param <T> individual item type, e.g. Movie
+ * @param <U> collection type, holding T's, e.g. Movies
+ */
 public class FetchMovieDataTask<T, U extends MovieData<T>> extends AsyncTask<String, Void, U> {
 
     private final String LOG_TAG = Utility.getLogTag(this.getClass());
